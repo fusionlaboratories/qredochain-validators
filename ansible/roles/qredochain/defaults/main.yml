@@ -1,0 +1,19 @@
+---
+service_name: "qredochain"
+service_dir: "/opt/{{ service_name }}"
+systemd_limit_no_files: 50000
+service_description: "Qredochain node"
+systemd_dir: "/etc/systemd/system"
+systemd_conf_dir: "{{ systemd_dir }}/{{ service_name }}.service.d"
+
+qredochain_snapshot_url: "https://snapshots.{{ network }}.qredo.network/"
+qredochain_gh_url: "https://github.com/qredo/qredochain-validators"
+qredochain_tar: "{{ service_name }}.{{ qredochain_version }}.tar.gz"
+qredochain_binary: "{{ service_dir }}/bin/{{ service_name }}"
+qredochain_release_base_url: "{{ qredochain_gh_url }}/releases/download"
+qredochain_release_file: "qredochain-{{ qredochain_version }}/{{ qredochain_tar }}"
+qredochain_release_url: "{{ qredochain_release_base_url }}/{{ qredochain_release_file }}"
+
+qrdo_tar: "qrdo.{{ qrdo_version }}.tar.gz"
+qrdo_release_file: "qrdo-{{ qrdo_version }}/{{ qrdo_tar }}"
+qrdo_release_url: "{{ qredochain_release_base_url }}/{{ qrdo_release_file }}"

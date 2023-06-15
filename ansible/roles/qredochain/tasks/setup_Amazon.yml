@@ -1,0 +1,6 @@
+---
+- name: Install acl
+  ansible.builtin.yum:
+    state: latest
+    pkg:
+      - acl

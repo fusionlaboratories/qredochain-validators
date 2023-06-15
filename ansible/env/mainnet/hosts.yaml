@@ -1,0 +1,6 @@
+---
+all:
+  hosts:
+    validator-node:
+      ansible_host: "10.56.58.206"
+      ansible_user: "ubuntu"

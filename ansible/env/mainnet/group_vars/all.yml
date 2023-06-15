@@ -1,0 +1,9 @@
+---
+network: "mainnet"
+qredochain_version: "1.10.6"
+qredochain_file_shor_sha: "cb4a29101"
+qredochain_file_sufix: "tar.gz"
+qredochain_sig_file_sifux: "sig"
+qredochain_release_url: "https://github.com/qredo/qredochain-validators/releases/download/v{{ qredochain_version }}/{{ service_name }}.{{ qredochain_version }}-{{ qredochain_file_shor_sha }}.{{qredochain_file_sufix }}"
+qredochain_snapshot_url: "https://snapshots.{{ network }}.qredo.network/"
+qredochain_snapshot_auth: "V2HJ32lbW59_yN-TQ_4NDpKS1hUSm45QSN"

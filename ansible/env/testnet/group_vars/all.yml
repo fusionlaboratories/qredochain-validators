@@ -1,0 +1,5 @@
+---
+network: "testnet"
+qredochain_version: "1.10.7"
+qrdo_version: "0.2.1"
+qredochain_snapshot_auth: ""
