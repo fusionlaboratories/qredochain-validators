@@ -15,12 +15,15 @@
     group: "{{ service_name }}"
     mode: 0770
   loop:
-  - "{{ service_dir }}/tmp"
+    - "{{ service_dir }}/bin"
+    - "{{ service_dir }}/assets"
 
-- name: Upload  public key for signature verification
+- name: Upload Qredo pub key
   ansible.builtin.copy:
-    src: "./"
-    dest: "{{ service_dir }}/tmp"
+    src: "./{{ item }}"
+    dest: "{{ service_dir }}/assets"
     owner: "{{ service_name }}"
     group: "{{ service_name }}"
     mode: 0755
+  loop:
+    - "qredo.pub.pem"

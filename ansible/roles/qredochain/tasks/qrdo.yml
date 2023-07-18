@@ -1,0 +1,29 @@
+---
+- name: Download qrdo binary tar
+  become_user: "{{ service_name }}"
+  ansible.builtin.get_url:
+    url: "{{ item }}"
+    dest: "{{ service_dir }}/assets"
+  loop:
+    - "{{ qrdo_release_url }}"
+    - "{{ qrdo_release_url }}.sig"
+  changed_when: true
+
+- name: Verify signature
+  ansible.builtin.command:
+    cmd: "openssl dgst -sha256 -verify qredo.pub.pem -signature {{ qrdo_tar }}.sig {{ qrdo_tar }}"
+    chdir: "{{ service_dir }}/assets"
+
+- name: Extract qrdo tar file
+  ansible.builtin.unarchive:
+    src: "{{service_dir }}/assets/{{ qrdo_tar }}"
+    dest: "{{ service_dir }}/bin"
+    remote_src: true
+
+- name: Set exec permissions
+  ansible.builtin.file:
+    path: "{{ service_dir }}/bin/qrdo"
+    owner: "{{ service_name }}"
+    group: "{{ service_name }}"
+    mode: a+x
+  changed_when: true
