@@ -360,20 +360,11 @@ To create your wallet with this tool, take the following steps:
     $ sudo mv qrdo /usr/local/bin
     
     ```
-    
-2. Generate your 24-word mnemonic seed phrase and write the output to `seed.txt`:
+
+2. Create you bls_key.json file
 
     ```bash
-    $ qrdo generate-seed > seed.txt
-    $ cat seed.txt
-    > tyre apple stock throw .... this
-    ```
-    
-    **IMPORTANT:** Physically write down your mnemonic seed phrase. The Qredo Network can't recover your seed phrase, so validator assets are at risk if the seed phrase is lost or compromised.
-
-3. Create you bls_key.json file
-    ```bash
-    $ qrdo recover --in seed.txt --out bls-key.json
+    $ qrdo generate-seed > bls-key.json
     ```
    
     A `bls-key.json` file will be created locally, containing you seed, private key and public key
@@ -387,30 +378,35 @@ To create your wallet with this tool, take the following steps:
       "mnemonic": "garage hurdle purity visual next kidney veteran depend hand hood season coyote story ramp hip deer below embark tourist cinnamon fragile panda lesson dignity"
     }
     ```
+    **IMPORTANT:** Physically write down your mnemonic seed phrase. The Qredo Network can't recover your seed phrase, so validator assets are at risk if the seed phrase is lost or compromised.
 
-4. Once your node is fully synchronized (see 2.1, step 6), you can create and push your IDDoc using your `bls-key.json` file:
+3. Once your node is fully synchronized (see 2.1, step 6), you can create and push your IDDoc using your `bls-key.json` file:
 
     ```bash
-    $ qrdo create-iddoc --reference "validator-<name>" --in seed.txt --endpoint=<node-endpoint>
+    $ qrdo create-iddoc --reference "validator-<name>" --in bls-key.json --endpoint=<node-endpoint>
     ```
 
     The `<node-endpoint>` is the address exposed by your node for RPC requests e.g. `127.0.0.1:26657`.
 
-5. Use your IDDoc to create a QRDO wallet. If working on the Qredo testnet create a GOERLI_QRDO wallet:
+4. Use your IDDoc to create a QRDO wallet. If working on the Qredo testnet create a GOERLI_QRDO wallet:
 
     ```bash
     $ qrdo create-wallet --endpoint=<node-endpoint> --coin QRDO --bls-file bls-key.json
-    > 5b249883e4bde832032a9007ccd2ac678b176eadcd7b9c7014004b562b30343e
+    ...
+    > IdentityID: 5b249883e4bde832032a9007ccd2ac678b176eadcd7b9c7014004b562b30343e
+    ...
     ```
 
     (testnet)
 
     ```bash
     $ qrdo create-wallet --endpoint=<node-endpoint>  --coin GOERLI_QRDO --bls-file bls-key.json
-    > 727e9ddb2cdcc201122891803eae737bc737e99e0c3e0e514938df91cd5b2d1d
+    ...
+    > walletID: 727e9ddb2cdcc201122891803eae737bc737e99e0c3e0e514938df91cd5b2d1d
+    ...
     ```
   
-6. Obtain the deposit address for the validator wallet:
+5. Obtain the deposit address for the validator wallet:
   
     ```bash
     $ qrdo deposit-address --deposit-address=<wallet-id> --endpoint=<node-endpoint> 

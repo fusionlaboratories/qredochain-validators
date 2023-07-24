@@ -17,12 +17,12 @@
 - name: Extract qrdo tar file
   ansible.builtin.unarchive:
     src: "{{service_dir }}/assets/{{ qrdo_tar }}"
-    dest: "{{ service_dir }}/bin"
+    dest: "/usr/local/bin"
     remote_src: true
 
 - name: Set exec permissions
   ansible.builtin.file:
-    path: "{{ service_dir }}/bin/qrdo"
+    path: "/usr/local/bin/qrdo"
     owner: "{{ service_name }}"
     group: "{{ service_name }}"
     mode: a+x
