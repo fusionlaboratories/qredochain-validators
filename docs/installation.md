@@ -120,8 +120,14 @@ There are many ways to deploy `qredochain`. We recommend one of the following tw
 Deployment impacts the performance and reliability of your validator, so it's important that you get it right.
 
 ## 2.1. Option 1: Deploy with an Ansible role
+### 2.1.1. Requirements
+The binaries have been tested on the following Operating Systems:
+- Ubuntu 20.04
+- Ubuntu 22.04
+- AmazonLinux 2023
 
-## 2.1.1. Overview
+In order to run the playbook, ansible must be installed in the host running it.
+### 2.1.2. Overview
 
 ```
 ├── env
@@ -161,35 +167,27 @@ Deployment impacts the performance and reliability of your validator, so it's im
             └── main.yml
 ```
 
-### 2.1.2. Environment variables
+### 2.1.3. Environment variables
 
 - MAINNET - all variables are located in `env/mainnet/group_vars/all.yml`
 - TESTNET - all variables are located in `env/testnet/group_vars/all.yml`
 
 -----------------------------------------------------------------------------------------------
-|           NAME            |     Description                                                  |
-|---------------------------|------------------------------------------------------------------|
-| env                       | The name of the environment.                                     |
-| qredochain_version        | The version of qredochain .                                      |
-| qredochain_file_short_sha | Used with the version to target a specific build .               |
-| qredochain_file_sufix     | The suffix of the files.                                         |
-| qredochain_sig_file_sifux | The suffix of the signature file.                                |
-| qredochain_release_url    | The public github release repository.                            |
-| qredochain_snapshot_auth  | Used by qredochain to authenticate to the snapshot endpoint.     |
-| qredochain_sentry_endpoint| Used to configure the `persistent_peers` value of `qredochain`.  |
-| qredochain_peer_1_port    | The TPC port of the peer 1. Used for configuring `qredochain`.   |
-| qredochain_peer_1_id      | The P2P address of the peer 1. Used for configuring `qredochain`.|
-| qredochain_peer_2_port    | The TPC port of the peer 2. Used for configuring `qredochain`.   |
-| qredochain_peer_2_id      | The P2E address of the peer 2. Used for configuring `qredochain`.| 
+| NAME                       | Description                                                       |
+|----------------------------|-------------------------------------------------------------------|
+| network                    | The name of the environment.                                      |
+| qredochain_version         | The version of qredochain.                                        |
+| qrdo_version               | The version of qrdo.                                              |
+| qredochain_snapshot_auth   | Used by qredochain to authenticate to the snapshot endpoint.      |
 -----------------------------------------------------------------------------------------------
 
-### 2.1.3. Install a Qredochain validator
+### 2.1.4. Install a Qredochain validator
 
 **Note:** Currently the role supports only the **ubuntu 20.04** operation system.
 
 To install a Qredochain validator with an Ansible role, take the following steps:
 
-1. Configure MAINNET or TESTNET variables. You need to set the ip addresses or hostnames to the target hosts.
+1. Configure MAINNET or TESTNET variables. You need to set the IP addresses or hostnames to the target host.
 
    The variables are located in `env/{mainnet,testnet}/hosts.yml`. 
 
@@ -197,14 +195,14 @@ To install a Qredochain validator with an Ansible role, take the following steps
 
     ```
     cd ansible
-    ansible-playbook -i env/{mainnet,testnet}/ qredochain-node.yaml
+    ansible-playbook -i env/{mainnet,testnet}/ playbooks/qredochain-node.yaml --extra-vars "qredochain_snapshot_auth=<REDACTED>" -D
     ```
-### 2.1.4. What the Ansible role will produce
+### 2.1.5. What the Ansible role will produce
 
 - `/opt/qredochain`: The `qredochain` home directory.
-- `//opt/qredochain/tmp`: A temporary directory used to store downloads and the public key for signing verification.
-- `//opt/qredochain/.qredochain/{testnet,mainnet}/config/config.toml`: The `qredochain`/tendermint config file.
-- `//etc/systemd/system/qredochain.service.d/`: Content `systemd` configuration for `qredochain`.
+- `/opt/qredochain/assets`: Assets used to store downloads and the public key for signing verification.
+- `/opt/qredochain/.qredochain/{testnet,mainnet}/config/config.toml`: The `qredochain`/tendermint config file.
+- `/etc/systemd/system/qredochain.service.d/`: Content `systemd` configuration for `qredochain`.
 
 ## 2.2. Option 2: Deploy with Docker Compose
 
