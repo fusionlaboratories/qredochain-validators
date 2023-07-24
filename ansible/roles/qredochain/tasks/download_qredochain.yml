@@ -17,12 +17,12 @@
 - name: Extract qredochain tar file
   ansible.builtin.unarchive:
     src: "{{service_dir }}/assets/{{ qredochain_tar }}"
-    dest: "{{ service_dir }}/bin"
+    dest: "/usr/local/bin"
     remote_src: true
 
 - name: Set exec permissions
   ansible.builtin.file:
-    path: "{{ service_dir }}/bin/{{ service_name }}"
+    path: "/usr/local/bin/{{ service_name }}"
     owner: "{{ service_name }}"
     group: "{{ service_name }}"
     mode: a+x
